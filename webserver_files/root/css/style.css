@@ -1,0 +1,60 @@
+@font-face {
+  font-family: Abel;
+  src: url(fonts/Abel-Regular.ttf);
+}
+body {
+  background-color: rgba(246, 237, 242, 0.8);
+  padding: 0;
+  margin: 0;
+  align-content: center;
+  font-family: Abel, sans-serif;
+}
+
+h1 {
+  color: black;
+  text-align: center;
+  margin: 20px;
+  font-size: 40px;
+}
+h2 {
+  color: black;
+  text-align: center;
+  margin: 15px;
+  font-size: 32px;
+}
+
+p {
+  font-family: verdana;
+  font-size: 20px;
+  color: white;
+}
+
+button {
+  display: flex;
+  margin: auto;
+  margin-bottom: 10px;
+  color: blue;
+  font-size: 20px;
+}
+
+.log_block{
+  background-color: white;
+  width: 70%;
+  padding: 20px;
+  margin: auto;
+  margin-top: 2%;
+  margin-bottom: 2%;  
+box-shadow: rgba(0, 0, 0, 0.8) 0px 10px 25px;
+  font-size: 20px;
+  overflow-wrap: break-word;
+  border-radius: 15px;
+}
+
+@media (max-width: 980px) {
+  .log_block{
+    width: 90%;
+  }
+  button {
+  font-size: 30px;
+  }
+}
