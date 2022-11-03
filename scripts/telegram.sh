@@ -5,7 +5,7 @@ if [ -z $telegram_chat_id ] || [ -z $telegram_bot_token ]; then
 fi
 log_folder=/var/www/html/logs/
 regex="^(backup_script-)([[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}).log\$"
-send() {
+send () {
   curl --data-urlencode "text=$message" "https://api.telegram.org/bot$telegram_bot_token/sendMessage?chat_id=$telegram_chat_id"
 }
 last_file=""
