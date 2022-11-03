@@ -10,7 +10,7 @@ send () {
   curl --data-urlencode "text=$message" "https://api.telegram.org/bot$telegram_bot_token/sendMessage?chat_id=$telegram_chat_id"
 }
 last_file=""
-file_list=$(ls)
+file_list=$(ls $log_folder)
 inotifywait -m $log_folder -e create -e moved_to |
  while read dir action file
  do
