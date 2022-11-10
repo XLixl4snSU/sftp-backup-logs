@@ -36,5 +36,5 @@ inotifywait -m $log_folder -e create -e moved_to |
         fi
       fi
     fi
-    file_list=$(ls)
+    file_list=$(ls $log_folder)
   done
