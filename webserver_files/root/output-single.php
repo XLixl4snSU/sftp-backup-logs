@@ -15,7 +15,7 @@ if(filesize($filename) > 0) {
   $erg = str_replace("color: white","color: black",$erg);
   $erg = str_replace("background-color: black;","",$erg);
   echo nl2br($erg);
-} else
+} else {
   echo "Error. This log does not exist.";
 }
 ?>
