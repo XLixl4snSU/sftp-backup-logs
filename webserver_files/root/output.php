@@ -24,7 +24,7 @@ for ($i = 0; $i <= 365; $i++) {
 }
 
 ?>
-<h2>Last Backup: <?php echo $first_log_date ?></h2>
+<h2>Last Backup: <?php echo $first_log_date ?> <a href="/show-rsync-log?date=<?php echo $first_log_date ?>">(rsync)</a></h2>
 <?php
 $fh = fopen($first_log, 'r');
 $pageText = fread($fh, 25000);

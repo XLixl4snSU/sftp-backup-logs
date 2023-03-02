@@ -33,8 +33,19 @@ button {
   display: flex;
   margin: auto;
   margin-bottom: 10px;
-  color: blue;
+  color: hotpink;
   font-size: 20px;
+  font-weight: bold;
+  border-radius: 14px;
+  padding: 10px;
+}
+
+a {
+  color: hotpink;
+}
+
+a:link {
+  text-decoration: none;
 }
 
 .log_block{
@@ -58,3 +69,7 @@ box-shadow: rgba(0, 0, 0, 0.8) 0px 10px 25px;
   font-size: 30px;
   }
 }
+
+#overview {
+  font-size: 22px;    
+} 

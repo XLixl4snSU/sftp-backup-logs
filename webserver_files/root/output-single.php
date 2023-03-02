@@ -6,7 +6,7 @@ $date = $_GET['date'];
 $date = basename("$date");
 $filename = "../logs/backup_script-" . $date . ".log";
 ?>
-<h2>Logs for backup of <?php echo $date ?></h2>
+<h2>Logs for backup of <?php echo $date ?> <a href="/show-rsync-log?date=<?php echo $date ?>">(rsync)</a></h2>
 <?php
 $fh = fopen($filename, 'r');
 if(filesize($filename) > 0) {

@@ -9,7 +9,7 @@
      $(function(){
        
        var date=window.location.search.substr(1)
-       $.get(`output-single.php?${date}`, function(data){
+       $.get(`output-single-rsync.php?${date}`, function(data){
 		document.getElementById("main").innerHTML=data;            
        });
     });
