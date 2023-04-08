@@ -1,3 +1,4 @@
+
 ## Overview
 
 ## Features
@@ -46,3 +47,4 @@ To run the container, you can use this example command:
 |--|--|
 |telegram_bot_token|Get it from @botfather|
 |telegram_chat_id|Get it from @get_id_bot|
+|webserver_url|URL of your Webserver (FQDN or IP, without trailing /)

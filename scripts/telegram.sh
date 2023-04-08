@@ -3,6 +3,12 @@ if [ -z $telegram_chat_id ] || [ -z $telegram_bot_token ]; then
   echo "Telegram variables not set"
   exit 1
 fi
+
+if [ -z $webserver_url ] || [ -z $webserver_url ]; then
+  echo "Webserver URL not set"
+  exit 1
+fi
+
 log_folder=/var/www/html/logs/
 regex="^(backup_script-)([[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}).log\$"
 send () {
@@ -22,11 +28,11 @@ inotifywait -m $log_folder -e create -e moved_to |
           send
           while true; do
             if grep -q "Backup script finished successfully." $log_folder$file; then
-              message="✅✅✅ Backup of $backup_date finished successfully! ✅✅✅"$'\n'"See https://logs.fllx.de/show-log?date=$backup_date_original for logs."
+              message="✅✅✅ Backup of $backup_date finished successfully! ✅✅✅"$'\n'"See $webserver_url/show-log?date=$backup_date_original for logs."
               send
               break
             elif grep -q "Rsync reports an error." $log_folder$file; then
-              message="⚠️⚠️⚠️ Backup $backup_date failed! ⚠️⚠️⚠️"$'\n'"See https://logs.fllx.de/show-log?date=$backup_date_original for logs."
+              message="⚠️⚠️⚠️ Backup $backup_date failed! ⚠️⚠️⚠️"$'\n'"See $webserver_url/show-log?date=$backup_date_original for logs."
               send
               break
             else
