@@ -44,4 +44,3 @@ foreach($result_list as $x => $x_value) {
   echo "<br>";
 }
 ?>
-

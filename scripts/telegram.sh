@@ -40,7 +40,7 @@ inotifywait -m $log_folder -e create -e moved_to |
             fi
           done
         fi
+        file_list=$(ls $log_folder)
       fi
     fi
-    file_list=$(ls $log_folder)
   done
