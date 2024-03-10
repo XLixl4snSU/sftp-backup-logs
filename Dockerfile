@@ -1,4 +1,4 @@
-FROM alpine:3.17.3
+FROM alpine:3.19.1
 RUN apk add --no-cache nginx php-fpm tzdata openrc curl bash inotify-tools
 RUN cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 COPY ./webserver_files/ /var/www/html/

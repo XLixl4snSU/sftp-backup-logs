@@ -4,7 +4,7 @@ if [ -z $telegram_chat_id ] || [ -z $telegram_bot_token ]; then
   exit 1
 fi
 
-if [ -z $webserver_url ] || [ -z $webserver_url ]; then
+if [ -z $webserver_url ]; then
   echo "Webserver URL not set"
   exit 1
 fi
@@ -14,33 +14,37 @@ regex="^(backup_script-)([[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}).log\$"
 send () {
   curl --data-urlencode "text=$message" "https://api.telegram.org/bot$telegram_bot_token/sendMessage?chat_id=$telegram_chat_id"
 }
-last_file=""
-file_list=$(ls $log_folder)
-inotifywait -m $log_folder -e create -e moved_to |
-  while read dir action file; do
-    if [[ ! $file_list =~ $file ]]; then
-      if [[ $last_file != $file ]]; then
-        last_file=$file
-        if [[ $file =~ $regex ]]; then
-          backup_date_original=${BASH_REMATCH[2]}
-          backup_date=$(date -d "$backup_date_original" +"%d.%m.%Y")
-          message="New backup running now: $backup_date"
-          send
-          while true; do
-            if grep -q "Backup script finished successfully." $log_folder$file; then
-              message="✅✅✅ Backup of $backup_date finished successfully! ✅✅✅"$'\n'"See $webserver_url/show-log?date=$backup_date_original for logs."
-              send
-              break
-            elif grep -q "Rsync reports an error." $log_folder$file; then
-              message="⚠️⚠️⚠️ Backup $backup_date failed! ⚠️⚠️⚠️"$'\n'"See $webserver_url/show-log?date=$backup_date_original for logs."
-              send
-              break
-            else
-              sleep 10s
-            fi
-          done
-        fi
-      fi
-    fi
-    file_list=$(ls $log_folder)
+
+
+while true
+do
+  while [ ! -f $log_folder"backup_script-$(date +%F).log" ] || [ "$md5" == "$md5_finished" ] 
+  do
+    md5=$(md5sum $log_folder"backup_script-$(date +%F).log")
+    sleep 60
   done
+  now_running_file=$log_folder"backup_script-$(date +%F).log"
+  now_running_date=$(date +%F)
+  message="New backup running now: $(date +%F)"
+  send
+  while true
+  do
+    if grep -q "Backup script finished successfully." $now_running_file; then
+      message="✅✅✅ Backup of $now_running_date finished successfully! ✅✅✅"$'\n'"See $webserver_url/show-log?date=$now_running_date for logs."
+      send
+      break
+    elif grep -q "Rsync reports an error." $log_folder$file; then
+      message="⚠️⚠️⚠️ Backup $now_running_date failed! ⚠️⚠️⚠️"$'\n'"See $webserver_url/show-log?date=$now_running_date for logs."
+      send
+      break
+    elif [ $now_running_date != $(date +%F) ] && [ -f $log_folder"backup_script-$(date +%F).log" ]; then
+      message="⚠️⚠️⚠️ Backup $now_running_date timed out. A new backup log was found and the old one was not finished! ⚠️⚠️⚠️"$'\n'"See $webserver_url/show-log?date=$now_running_date for logs."
+      send
+      break
+    else
+      sleep 30s
+    fi
+  done
+  md5_finished=$(md5sum $now_running_file)
+  md5=$(md5sum $now_running_file)
+done
