@@ -20,7 +20,7 @@ while true
 do
   while [ ! -f $log_folder"backup_script-$(date +%F).log" ]
   do
-  sleep 60
+    sleep 60
   done
   now_running_file=$log_folder"backup_script-$(date +%F).log"
   now_running_date=$(date +%F)
@@ -38,5 +38,5 @@ do
       break
     else
       sleep 10s
+  done
 done
-
