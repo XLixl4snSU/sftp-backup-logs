@@ -18,9 +18,10 @@ send () {
 
 while true
 do
-  while [ ! -f $log_folder"backup_script-$(date +%F).log" && "$md5" -eq "$md5_finished" ]
+  while [ ! -f $log_folder"backup_script-$(date +%F).log" || "$md5" == "$md5_finished" ]
   do
     md5=$(md5sum $log_folder"backup_script-$(date +%F).log")
+    echo $md5
     sleep 60
   done
   now_running_file=$log_folder"backup_script-$(date +%F).log"
@@ -41,5 +42,7 @@ do
       sleep 10s
     fi
   md5_finished=$(md5sum $now_running_file)
+  echo $md5_finished
+  sleep 30s
   done
 done
