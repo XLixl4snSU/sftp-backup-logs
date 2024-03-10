@@ -10,7 +10,7 @@ trap shutdown SIGTERM SIGINT
 echo "Starting nginx"
 nginx
 echo "Starting php"
-php-fpm81
+php-fpm82
 echo "Starting Telegram-Bot-Script"
 /home/scripts/telegram.sh &
 wait $!
