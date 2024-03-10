@@ -4,7 +4,7 @@ if [ -z $telegram_chat_id ] || [ -z $telegram_bot_token ]; then
   exit 1
 fi
 
-if [ -z $webserver_url ] || [ -z $webserver_url ]; then
+if [ -z $webserver_url ]; then
   echo "Webserver URL not set"
   exit 1
 fi
@@ -18,10 +18,9 @@ send () {
 
 while true
 do
-  while [ ! -f $log_folder"backup_script-$(date +%F).log" || "$md5" == "$md5_finished" ]
+  while [ ! -f $log_folder"backup_script-$(date +%F).log" ] || [ "$md5" == "$md5_finished" ] 
   do
     md5=$(md5sum $log_folder"backup_script-$(date +%F).log")
-    echo $md5
     sleep 60
   done
   now_running_file=$log_folder"backup_script-$(date +%F).log"
@@ -38,11 +37,14 @@ do
       message="⚠️⚠️⚠️ Backup $now_running_date failed! ⚠️⚠️⚠️"$'\n'"See $webserver_url/show-log?date=$now_running_date for logs."
       send
       break
+    elif [ $now_running_date != $(date +%F) ] && [ -f $log_folder"backup_script-$(date +%F).log" ]; then
+      message="⚠️⚠️⚠️ Backup $now_running_date timed out. A new backup log was found and the old one was not finished! ⚠️⚠️⚠️"$'\n'"See $webserver_url/show-log?date=$now_running_date for logs."
+      send
+      break
     else
-      sleep 10s
+      sleep 30s
     fi
-  md5_finished=$(md5sum $now_running_file)
-  echo $md5_finished
-  sleep 30s
   done
+  md5_finished=$(md5sum $now_running_file)
+  md5=$(md5sum $now_running_file)
 done
