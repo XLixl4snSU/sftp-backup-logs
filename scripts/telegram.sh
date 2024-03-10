@@ -38,5 +38,6 @@ do
       break
     else
       sleep 10s
+    fi
   done
 done
